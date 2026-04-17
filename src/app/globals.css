@@ -1,26 +1,57 @@
 @import "tailwindcss";
 
+/* Midnight harbor + electric teal (default site theme) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #06080d;
+  --foreground: #e9eef5;
+  --card: #0f141d;
+  --card-foreground: #e9eef5;
+  --muted: #161d2a;
+  --muted-foreground: #8b9aad;
+  --border: #273549;
+  --accent: #3dd6c6;
+  --accent-foreground: #031512;
+  --hero-glow-a: rgba(61, 214, 198, 0.22);
+  --hero-glow-b: rgba(99, 102, 241, 0.14);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+@keyframes nm-breathe {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes nm-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
