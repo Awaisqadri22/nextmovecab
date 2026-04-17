@@ -400,7 +400,7 @@ export default function HeroServicesSection() {
       {/* Book your ride — grid like CabX */}
       <section
         id="book-now"
-        className="mx-auto max-w-6xl px-6 py-12 sm:py-16"
+        className="scroll-mt-28 mx-auto max-w-6xl px-6 py-12 sm:py-16"
         aria-labelledby="book-heading"
       >
         <h2

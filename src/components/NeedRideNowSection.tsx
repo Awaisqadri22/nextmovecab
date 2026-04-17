@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 const PHONE_E164 = "+46737493339";
 const PHONE_TEL = "tel:+46737493339";
-const WHATSAPP_URL = "https://wa.me/46737493339";
+const WHATSAPP_URL = "https://api.whatsapp.com/send?phone=46737493339";
 
 const CHIPS = [
   "24/7 available",
@@ -101,7 +101,7 @@ export default function NeedRideNowSection() {
     <section
       ref={ref}
       id="need-ride-now"
-      className="relative overflow-hidden border-t border-border bg-muted/50 py-16 sm:py-24"
+      className="relative scroll-mt-28 overflow-hidden border-t border-border bg-muted/50 py-16 sm:py-24"
       aria-labelledby="need-ride-heading"
     >
       <div

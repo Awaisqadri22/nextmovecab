@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const PHONE = "+46737493339";
 const PHONE_TEL = "tel:+46737493339";
-const WHATSAPP = "https://wa.me/46737493339";
+const WHATSAPP = "https://api.whatsapp.com/send?phone=46737493339";
 
 const exploreLinks = [
   { href: "/#book-now", label: "Book now" },
