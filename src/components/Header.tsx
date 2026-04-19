@@ -102,8 +102,12 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-card/95 shadow-[0_12px_40px_-16px_rgba(0,0,0,0.75)] backdrop-blur-xl">
       <div
-        className="h-[3px] w-full bg-gradient-to-r from-transparent via-accent to-transparent opacity-90"
+        className="h-[3px] w-full opacity-95"
         aria-hidden
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, rgba(61,214,198,0.2) 12%, var(--accent) 38%, var(--aurora) 62%, rgba(232,121,249,0.25) 88%, transparent 100%)",
+        }}
       />
 
       <div className="mx-auto w-full max-w-[min(100%,90rem)] px-4 sm:px-8 lg:px-12">

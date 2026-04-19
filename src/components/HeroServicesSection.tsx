@@ -2,7 +2,11 @@
 
 import { useCallback, useState } from "react";
 import Link from "next/link";
+import BookingRideModal, {
+  type BookingKind,
+} from "@/components/BookingRideModal";
 import NeedRideNowSection from "@/components/NeedRideNowSection";
+import TaxiHeroBackdrop from "@/components/TaxiHeroBackdrop";
 import TestimonialsSection from "@/components/TestimonialsSection";
 
 export type RouteId = "city-arlanda" | "arlanda-city" | "city-tour" | "custom";
@@ -160,6 +164,7 @@ const CAROUSELS: Record<RouteId, Slide[]> = {
 
 const BOOK_CARDS: {
   id: RouteId;
+  bookingKind: BookingKind;
   title: string;
   routeLine: string;
   price: string;
@@ -168,6 +173,7 @@ const BOOK_CARDS: {
 }[] = [
   {
     id: "arlanda-city",
+    bookingKind: "airport-pickup",
     title: "Airport pickup",
     routeLine: "Arlanda → City center",
     price: "650",
@@ -176,6 +182,7 @@ const BOOK_CARDS: {
   },
   {
     id: "city-arlanda",
+    bookingKind: "airport-dropoff",
     title: "Airport drop-off",
     routeLine: "City center → Arlanda",
     price: "595",
@@ -183,6 +190,7 @@ const BOOK_CARDS: {
   },
   {
     id: "city-tour",
+    bookingKind: "city-tour",
     title: "City tour",
     routeLine: "4 hours city exploration",
     price: "1 500",
@@ -190,6 +198,7 @@ const BOOK_CARDS: {
   },
   {
     id: "custom",
+    bookingKind: "custom",
     title: "Custom route",
     routeLine: "Any Stockholm destination",
     price: "Quote",
@@ -199,6 +208,10 @@ const BOOK_CARDS: {
 export default function HeroServicesSection() {
   const [activeRoute, setActiveRoute] = useState<RouteId>("city-arlanda");
   const [slideIndex, setSlideIndex] = useState(0);
+  const [bookingModal, setBookingModal] = useState<{
+    kind: BookingKind;
+    title: string;
+  } | null>(null);
 
   const slides = CAROUSELS[activeRoute];
   const total = slides.length;
@@ -220,35 +233,29 @@ export default function HeroServicesSection() {
 
   return (
     <div className="w-full bg-background">
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-muted text-foreground">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-90"
-          aria-hidden
-          style={{
-            backgroundImage:
-              "radial-gradient(ellipse 80% 55% at 50% -25%, var(--hero-glow-a), transparent), radial-gradient(ellipse 55% 45% at 100% 0%, var(--hero-glow-b), transparent)",
-          }}
-        />
-        <div className="relative mx-auto max-w-6xl px-6 pb-16 pt-14 sm:pb-20 sm:pt-20">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent">
-            Next Move Stockholm
-          </p>
-          <h1 className="mt-3 max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-5xl sm:leading-[1.08]">
-            Stockholm&apos;s Tesla-only taxi fleet
-          </h1>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Experience luxury transportation in our Tesla Model S 2024 fleet.
-            Premium service with zero emissions and ultimate comfort.
-          </p>
-        </div>
-      </section>
+      {/* Hero + popular services: shared taxi backdrop through booking strip, ends above "Book your ride" */}
+      <div className="relative w-full overflow-hidden bg-muted">
+        <TaxiHeroBackdrop />
+        <section className="relative z-10 text-foreground">
+          <div className="mx-auto max-w-6xl px-6 pb-16 pt-14 sm:pb-20 sm:pt-20">
+            <p className="bg-gradient-to-r from-accent via-cyan-200 to-aurora bg-clip-text text-xs font-semibold uppercase tracking-[0.2em] text-transparent">
+              Next Move Stockholm
+            </p>
+            <h1 className="mt-3 max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-5xl sm:leading-[1.08]">
+              Stockholm&apos;s Tesla-only taxi fleet
+            </h1>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+              Experience luxury transportation in our Tesla Model S 2024 fleet.
+              Premium service with zero emissions and ultimate comfort.
+            </p>
+          </div>
+        </section>
 
-      {/* Popular services — route tabs + carousel */}
-      <section
-        className="relative z-10 -mt-10 mx-auto max-w-6xl px-6 pb-6 sm:-mt-12"
-        aria-labelledby="popular-services-heading"
-      >
+        {/* Popular services — route tabs + carousel */}
+        <section
+          className="relative z-10 -mt-10 mx-auto max-w-6xl px-6 pb-8 sm:-mt-12 sm:pb-10"
+          aria-labelledby="popular-services-heading"
+        >
         <div className="rounded-2xl border border-border bg-card p-5 shadow-xl shadow-black/30 sm:p-8">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -395,7 +402,8 @@ export default function HeroServicesSection() {
             </div>
           </div>
         </div>
-      </section>
+        </section>
+      </div>
 
       {/* Book your ride — grid like CabX */}
       <section
@@ -439,12 +447,18 @@ export default function HeroServicesSection() {
                   </span>
                 ) : null}
               </div>
-              <Link
-                href="#contact-us"
-                className="mt-auto inline-flex w-full items-center justify-center rounded-xl border border-border py-2.5 text-sm font-semibold text-foreground transition hover:border-accent/40 hover:bg-muted"
+              <button
+                type="button"
+                onClick={() =>
+                  setBookingModal({
+                    kind: card.bookingKind,
+                    title: card.title,
+                  })
+                }
+                className="mt-auto inline-flex w-full cursor-pointer items-center justify-center rounded-xl border border-border py-2.5 text-sm font-semibold text-foreground transition hover:border-accent/40 hover:bg-muted"
               >
                 Book {card.title.toLowerCase()}
-              </Link>
+              </button>
             </article>
           ))}
         </div>
@@ -453,6 +467,16 @@ export default function HeroServicesSection() {
       <TestimonialsSection />
 
       <NeedRideNowSection />
+
+      {bookingModal ? (
+        <BookingRideModal
+          key={bookingModal.kind}
+          open
+          onClose={() => setBookingModal(null)}
+          kind={bookingModal.kind}
+          serviceTitle={bookingModal.title}
+        />
+      ) : null}
     </div>
   );
 }

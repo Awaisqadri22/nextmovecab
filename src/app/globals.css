@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Midnight harbor + electric teal (default site theme) */
+/* Midnight harbor + electric teal + aurora fuchsia (dual accent) */
 :root {
   --background: #06080d;
   --foreground: #e9eef5;
@@ -11,8 +11,13 @@
   --border: #273549;
   --accent: #3dd6c6;
   --accent-foreground: #031512;
+  /* Stunning second accent — northern-lights fuchsia (pairs with teal) */
+  --aurora: #e879f9;
+  --aurora-foreground: #1a0520;
+  --aurora-muted: rgba(232, 121, 249, 0.14);
   --hero-glow-a: rgba(61, 214, 198, 0.22);
   --hero-glow-b: rgba(99, 102, 241, 0.14);
+  --hero-glow-c: rgba(232, 121, 249, 0.18);
 }
 
 @theme inline {
@@ -25,6 +30,8 @@
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-aurora: var(--aurora);
+  --color-aurora-foreground: var(--aurora-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -53,5 +60,30 @@ body {
   }
   100% {
     background-position: -200% 0;
+  }
+}
+
+/* Hero taxi backdrop — cars + road (respect reduced motion) */
+@keyframes hero-taxi-drive {
+  from {
+    transform: translate3d(-18%, 0, 0);
+  }
+  to {
+    transform: translate3d(118%, 0, 0);
+  }
+}
+
+@keyframes hero-road-dash {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 72px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-taxi-motion {
+    animation: none !important;
   }
 }
